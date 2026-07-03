@@ -9,11 +9,9 @@ This project was completed as part of the **EE200 – Signals, Systems & Network
 ## Q1A – Frequency Forensics (The Ghost Signal)
 
 ### Objective
-
 Recover a hidden message from a grayscale image corrupted by periodic noise using Fourier Transform techniques.
 
 ### Methodology
-
 - Loaded the corrupted grayscale image.
 - Computed the 2D Fast Fourier Transform (FFT).
 - Shifted the spectrum to center low-frequency components.
@@ -23,62 +21,35 @@ Recover a hidden message from a grayscale image corrupted by periodic noise usin
 - Reconstructed the image using the Inverse FFT (IFFT).
 
 ### Techniques Used
-
-- 2D FFT
-- FFT Shift
-- Magnitude Spectrum
-- Log Spectrum
+- 2D FFT & FFT Shift
+- Magnitude & Log (dB) Spectrums
 - Notch Filtering
-- Inverse FFT
+- Inverse FFT (IFFT)
+
+### Restoration Results
+
+| Corrupted Input Image | Recovered Output Image |
+| :---: | :---: |
+| ![Corrupted Image](images/q1a_corrupted_image.png) | ![Recovered Image](images/q1a_recovered_image.png) |
+
+### Frequency Domain Analysis
+
+| Linear Spectrum | Log Spectrum (dB) |
+| :---: | :---: |
+| ![Linear Spectrum](images/q1a_linear_spectrum.png) | ![Log Spectrum (dB)](images/q1a_log_spectrum_db.png) |
+
+| Designed Notch Filter | Filtered Frequency Spectrum |
+| :---: | :---: |
+| ![Notch Filter](images/q1a_notch_filter.png) | ![Filtered Spectrum](images/q1a_filtered_spectrum.png) |
 
 ---
 
-## Results
-
-### Corrupted Image
-
-![Corrupted Image](images/q1a_corrupted_image.png)
-
----
-
-### Linear Spectrum
-
-![Linear Spectrum](images/q1a_linear_spectrum.png)
-
----
-
-### Log Spectrum (dB)
-
-![Log Spectrum](images/q1a_log_spectrum_db.png)
-
----
-
-### Notch Filter
-
-![Notch Filter](images/q1a_notch_filter.png)
-
----
-
-### Filtered Spectrum
-
-![Filtered Spectrum](images/q1a_filtered_spectrum.png)
-
----
-
-### Recovered Image
-
-![Recovered Image](images/q1a_recovered_image.png)
-
----
-
-# Q1B – Missing Boundaries
+## Q1B – Missing Boundaries
 
 ### Objective
-
 Detect object boundaries using Sobel edge detection after reducing image noise.
 
 ### Methodology
-
 - Loaded the grayscale image.
 - Applied image smoothing to reduce noise.
 - Computed vertical gradients using Sobel-X.
@@ -86,44 +57,20 @@ Detect object boundaries using Sobel edge detection after reducing image noise.
 - Combined both gradients to obtain the final edge map.
 
 ### Techniques Used
-
 - Image Smoothing
-- Sobel X Operator
-- Sobel Y Operator
-- Gradient Magnitude
+- Sobel X & Sobel Y Operators
+- Gradient Magnitude Computation
 - Edge Detection
 
----
+### Edge Detection Pipeline
 
-## Results
+| Original Input | Smoothed Image | Combined Gradient Magnitude |
+| :---: | :---: | :---: |
+| ![Original Image](images/q1b_original_image.png) | ![Smoothed Image](images/q1b_smoothed_image.png) | ![Gradient Magnitude](images/q1b_gradient_magnitude.png) |
 
-### Original Input Image
-
-![Original Image](images/q1b_original_image.png)
-
----
-
-### Smoothed Image
-
-![Smoothed Image](images/q1b_smoothed_image.png)
-
----
-
-### Sobel X (Vertical Edges)
-
-![Sobel X](images/q1b_sobel_x.png)
-
----
-
-### Sobel Y (Horizontal Edges)
-
-![Sobel Y](images/q1b_sobel_y.png)
-
----
-
-### Combined Gradient Magnitude
-
-![Gradient Magnitude](images/q1b_gradient_magnitude.png)
+| Sobel X (Vertical Edges) | Sobel Y (Horizontal Edges) |
+| :---: | :---: |
+| ![Sobel X](images/q1b_sobel_x.png) | ![Sobel Y](images/q1b_sobel_y.png) |
 
 ---
 
@@ -147,45 +94,6 @@ EE200-Frequency-Forensics
 │
 ├── Q1A_Frequency_Forensics.ipynb
 ├── Q1B_Missing_Boundaries.ipynb
-├── Frequency Forensics and Digital Detective.pdf
+├── EE200_Project_Report.pdf
 ├── README.md
 └── requirements.txt
-```
-
----
-
-# Technologies Used
-
-- Python
-- NumPy
-- OpenCV
-- Matplotlib
-- SciPy
-- Google Colab
-
----
-
-# Requirements
-
-Install the required libraries:
-
-```bash
-pip install -r requirements.txt
-```
-
----
-
-# Project Files
-
-- **Q1A_Frequency_Forensics.ipynb** – Frequency-domain image restoration using Fourier Transform.
-- **Q1B_Missing_Boundaries.ipynb** – Sobel edge detection implementation.
-- **Frequency Forensics and Digital Detective.pdf** – Detailed project report.
-- **images/** – Output images generated during the project.
-
----
-
-# Course
-
-**EE200 – Signals, Systems & Networks**
-
-This project demonstrates the application of signal processing concepts to practical image processing tasks, including frequency-domain filtering and edge detection.
