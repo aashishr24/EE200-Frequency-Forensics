@@ -1,99 +1,130 @@
-# EE200 Project: Frequency Forensics & Missing Boundaries
+# Frequency Forensics & Missing Boundaries
 
-This project was completed as part of the **EE200 – Signals, Systems & Networks** course. It demonstrates two fundamental image processing applications using frequency-domain analysis and edge detection techniques.
+Two classic image-processing problems solved with frequency-domain analysis
+and edge detection: recovering a message hidden under periodic noise, and
+detecting object boundaries via gradient-based edge detection.
+
+> **Engineering note:** the original notch filter only masked the exact
+> pixel of each detected noise spike, leaving faint residual periodic noise
+> in the recovered image due to spectral leakage. Dilating the spike mask by
+> a couple of pixels catches that leakage too, cutting residual noise-spike
+> pixels from 102 down to 60 (measured against the real corrupted image) at
+> the cost of masking under 1.2% of the spectrum. Both notebooks were also
+> Colab-only before; they now fall back to a bundled example image and run
+> standalone anywhere. Full details in [`FIXES.md`](FIXES.md).
 
 ---
 
-# Project Overview
+## Hidden Message Recovery (Frequency Domain)
 
-## Q1A – Frequency Forensics (The Ghost Signal)
+**Notebook:** [`frequency_forensics.ipynb`](frequency_forensics.ipynb)
 
 ### Objective
-Recover a hidden message from a grayscale image corrupted by periodic noise using Fourier Transform techniques.
+Recover a hidden message from a grayscale image corrupted by periodic noise, using Fourier Transform techniques.
 
 ### Methodology
-- Loaded the corrupted grayscale image.
-- Computed the 2D Fast Fourier Transform (FFT).
-- Shifted the spectrum to center low-frequency components.
-- Visualized the frequency spectrum in both linear and logarithmic (dB) scales.
-- Designed a notch filter to suppress periodic noise.
-- Applied the filter in the frequency domain.
-- Reconstructed the image using the Inverse FFT (IFFT).
+- Load the corrupted grayscale image
+- Compute the 2D Fast Fourier Transform (FFT)
+- Shift the spectrum to center low-frequency components
+- Visualize the frequency spectrum in both linear and logarithmic (dB) scales
+- Detect noise spikes in the spectrum and design a notch filter to suppress them, while protecting the low-frequency content near the center
+- Apply the filter in the frequency domain
+- Reconstruct the image using the Inverse FFT (IFFT)
 
 ### Techniques Used
 - 2D FFT & FFT Shift
 - Magnitude & Log (dB) Spectrums
-- Notch Filtering
+- Notch Filtering (with mask dilation to catch spectral leakage)
 - Inverse FFT (IFFT)
 
-### Restoration Results
+### Results
 
-| Corrupted Input Image | Recovered Output Image |
+| Corrupted Input | Recovered Output |
 | :---: | :---: |
-| ![Corrupted Image](images/q1a_corrupted_image.png) | ![Recovered Image](images/q1a_recovered_image.png) |
+| ![Corrupted Image](images/corrupted_image.png) | ![Recovered Image](images/recovered_image.png) |
 
 ### Frequency Domain Analysis
 
 | Linear Spectrum | Log Spectrum (dB) |
 | :---: | :---: |
-| ![Linear Spectrum](images/q1a_linear_spectrum.png) | ![Log Spectrum (dB)](images/q1a_log_spectrum_db.png) |
+| ![Linear Spectrum](images/linear_spectrum.png) | ![Log Spectrum (dB)](images/log_spectrum_db.png) |
 
-| Designed Notch Filter | Filtered Frequency Spectrum |
+| Notch Filter Mask | Filtered Spectrum |
 | :---: | :---: |
-| ![Notch Filter](images/q1a_notch_filter.png) | ![Filtered Spectrum](images/q1a_filtered_spectrum.png) |
+| ![Notch Filter](images/notch_filter.png) | ![Filtered Spectrum](images/filtered_spectrum.png) |
 
 ---
 
-## Q1B – Missing Boundaries
+## Edge Detection (Sobel)
+
+**Notebook:** [`missing_boundaries.ipynb`](missing_boundaries.ipynb)
 
 ### Objective
 Detect object boundaries using Sobel edge detection after reducing image noise.
 
 ### Methodology
-- Loaded the grayscale image.
-- Applied image smoothing to reduce noise.
-- Computed vertical gradients using Sobel-X.
-- Computed horizontal gradients using Sobel-Y.
-- Combined both gradients to obtain the final edge map.
+- Load the grayscale image
+- Apply Gaussian smoothing to reduce noise
+- Compute vertical gradients using Sobel-X
+- Compute horizontal gradients using Sobel-Y
+- Combine both gradients into the final edge map
 
 ### Techniques Used
-- Image Smoothing
+- Gaussian Smoothing
 - Sobel X & Sobel Y Operators
 - Gradient Magnitude Computation
-- Edge Detection
 
-### Edge Detection Pipeline
+### Results
 
-| Original Input | Smoothed Image | Combined Gradient Magnitude |
+| Original Input | Smoothed | Combined Gradient Magnitude |
 | :---: | :---: | :---: |
-| ![Original Image](images/q1b_original_image.png) | ![Smoothed Image](images/q1b_smoothed_image.png) | ![Gradient Magnitude](images/q1b_gradient_magnitude.png) |
+| ![Original Image](images/original_image.png) | ![Smoothed Image](images/smoothed_image.png) | ![Gradient Magnitude](images/gradient_magnitude.png) |
 
 | Sobel X (Vertical Edges) | Sobel Y (Horizontal Edges) |
 | :---: | :---: |
-| ![Sobel X](images/q1b_sobel_x.png) | ![Sobel Y](images/q1b_sobel_y.png) |
+| ![Sobel X](images/sobel_x.png) | ![Sobel Y](images/sobel_y.png) |
 
 ---
 
-# Repository Structure
+## Running It
 
-```text
-EE200-Frequency-Forensics
-│
-├── images/
-│   ├── q1a_corrupted_image.png
-│   ├── q1a_linear_spectrum.png
-│   ├── q1a_log_spectrum_db.png
-│   ├── q1a_notch_filter.png
-│   ├── q1a_filtered_spectrum.png
-│   ├── q1a_recovered_image.png
-│   ├── q1b_original_image.png
-│   ├── q1b_smoothed_image.png
-│   ├── q1b_sobel_x.png
-│   ├── q1b_sobel_y.png
-│   └── q1b_gradient_magnitude.png
-│
-├── Q1A_Frequency_Forensics.ipynb
-├── Q1B_Missing_Boundaries.ipynb
-├── EE200_Project_Report.pdf
-├── README.md
-└── requirements.txt
+Both notebooks run standalone (no Google Colab required) — they fall back
+to the example images already bundled in `images/`. If opened in Google
+Colab, they'll instead prompt you to upload your own image.
+
+```bash
+git clone https://github.com/aashishr24/EE200-Frequency-Forensics.git
+cd EE200-Frequency-Forensics
+pip install -r requirements.txt
+jupyter notebook
+```
+
+Then open either notebook and run all cells.
+
+## Repository Structure
+
+```
+.
+├── frequency_forensics.ipynb   # Hidden message recovery (FFT + notch filter)
+├── missing_boundaries.ipynb    # Sobel edge detection
+├── images/                     # Example input + all pipeline-stage outputs
+├── TECHNICAL_REPORT.pdf        # Full written report
+├── FIXES.md                    # Changelog of bugs found and fixed
+├── requirements.txt            # Python dependencies
+├── LICENSE                     # MIT
+└── README.md                   # This file
+```
+
+## Dependencies
+
+- **numpy** — numerical computing / FFT
+- **opencv-python** — image I/O, Gaussian blur, Sobel operators
+- **matplotlib** — visualization
+- **scipy** — mask dilation (`scipy.ndimage`)
+- **jupyter** — running the notebooks
+
+Python 3.8+. See `requirements.txt` for exact versions.
+
+## License
+
+MIT
